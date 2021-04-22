@@ -131,6 +131,38 @@ const items = [
             pathAndFileNameDefaultCase: '(pascalCase)',
         },
     },
+    {
+        option: 'Vue File',
+        defaultCase: '(pascalCase)',
+        entry: {
+            folderPath: './tools/templates/vue/__file__.vue',
+        },
+        stringReplacers: ['__type__', '__file__'],
+        output: {
+            path: (replacers, configItem) => {
+                function search(key, replacers){
+                    let i = 0
+                    let l = replacers.length
+                    for (i; i < l; i++) {
+                        if (replacers[i].slot === key) {
+                            return replacers[i];
+                        }
+                    }
+                }
+
+                const type = search('__type__(kebabCase)', replacers)
+
+                if (type.slotValue === 'page') {
+                    return `./src/pages/__file__.vue`
+                } else if (['atom', 'component', 'organism'].includes(type.slotValue)) {
+                    return `./src/components/__type__(kebabCase)s/__file__.vue`
+                }
+
+                throw new Error('Type specified is not valid.')
+            },
+            pathAndFileNameDefaultCase: '(pascalCase)',
+        },
+    },
 ];
 
 /*
