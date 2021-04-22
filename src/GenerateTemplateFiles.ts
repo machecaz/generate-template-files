@@ -226,11 +226,19 @@ export default class GenerateTemplateFiles {
     selectedConfigItem: IConfigItem
   ): Promise<string> {
     // Create the output path replacing any template keys.
-    const outputPathFormatted: string = outputPathReplacers.reduce(
+    let path: string;
+
+    if (typeof selectedConfigItem.output.path === 'function') {
+      path = selectedConfigItem.output.path(outputPathReplacers, selectedConfigItem);
+    } else {
+      path = selectedConfigItem.output.path;
+    }
+
+    const outputPathFormatted = outputPathReplacers.reduce(
       (outputPath: string, replacer: IReplacer) => {
         return replaceString(outputPath, replacer.slot, replacer.slotValue);
       },
-      selectedConfigItem.output.path
+      path
     );
 
     if (this._isCommandLine) {
