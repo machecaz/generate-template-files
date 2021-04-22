@@ -2,6 +2,7 @@ import CaseConverterEnum from '../constants/CaseConverterEnum';
 import IResults from './IResults';
 import IReplacer from './IReplacer';
 import IReplacerSlotQuestion from './IReplacerSlotQuestion';
+import { IPathFunction } from '..';
 
 /**
  * ```
@@ -70,7 +71,7 @@ export default interface IConfigItem {
    * ```
    */
   output: {
-    path: string;
+    path: string | IPathFunction;
     pathAndFileNameDefaultCase?: CaseConverterEnum;
     overwrite?: boolean; // determines if existing files with the same name be over written.
   };
